@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progression</title>
+
+    <link rel="stylesheet" href="src/style.css" />
+    <script
+      src="https://kit.fontawesome.com/9378f6a7a8.js"
+      crossorigin="anonymous" ></script>
+      <script src="src/main.js"></script>
+    </head>
+
+  <body>
+    <nav>
+      <div id="navbar">
+        <button data-view="Profil" class="nav-button">
+          <i class="fa-solid fa-user"></i> Profil
+        </button>
+        <button data-view="Träiningslogg" class="nav-button">
+          <i class="fa fa-fw fa-dumbbell"></i> Träiningslogg
+        </button>
+        <button data-view="Statistik" class="nav-button">
+          <i class="fa solid fa-chart-simple"></i> Statistik
+        </button>
+        <button data-view="Skapa pass" class="nav-button">
+          <i class="fa solid fa-plus"></i> Skapa pass
+        </button>
+      </div>
+    </nav>
+   <main id="main-container">
+    <div id="log-container">
+      <h1>Träningslogg</h1>
+
+      <form id="log-form">
+
+        <label for="datum">Datum</label>
+        <input type="date" id="datum" name="datum" required>
+        <label for="övning">Övning:</label>
+        <input type="text" name="övning" id="övning" required />
+
+        <label for="set">sets:</label>
+        <select id="sets" name="sets" required>
+          <option value="">Antal</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+
+        <label for="reps">reps:</label>
+        <select name="reps" id="reps" required>
+          <option value="">Antal</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="12">12</option>
+          <option value="15">15</option>
+          <option value="15-20">15-20</option>
+        </select>
+
+        <label for="vikt">vikt:</label>
+        <input type="number" name="vikt_kg" id="vikt" placeholder="kg" />
+
+        <label for="vila">vila:</label>
+        <select name="vila" id="vila">
+          <option value="30">30 sek</option>
+          <option value="60">60 sek</option>
+          <option value="90">90 sek</option>
+          <option value="120">120 sek</option>
+          <option value="300">300 sek</option>
+        </select>
+
+        <label for="kommentar">Kommentar</label>
+        <input type="text" name="kommentar" />
+        
+        <button type="submit" id="submit-btn">Spara</button>
+      </form>
+
+      <ul id="log-list"></ul>
+    </div>
+    <div id="stats-container"></div>
+    <div id="create-pass-generator"></div>
+    </main>
+
+
+    <footer>
+
+        <p>&copy;2025 Progression</p>
+
+    </footer>
+  </body>
+</html>
