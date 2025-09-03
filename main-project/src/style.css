@@ -1,14 +1,152 @@
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
+* {
   box-sizing: border-box;
 }
-body{
-    font-family: 'inter', sans-serif; 
-    font-size: 16px;
-    line-height: 1.5;
-    color: #333;
-    background-color: #fff;
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f9fafb;
+  color: #111827;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; 
+}
+
+/* Header / Navbar */
+.header {
+  background: #484e57;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-button i {
+  font-size: 1.1rem;
+}
+
+.nav-button.active,
+.nav-button:hover {
+  border-bottom: 1px solid #ffffff;
+  padding-bottom: 0.5rem;
+}
+.nav-button:hover{
+  transform: scale(1.05);
+}
+
+/* Main layout */
+.main-container {
+  flex: 1; /* Gör att main tar allt utrymme mellan header & footer */
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  padding: 2rem;
+ 
+ 
+  
+}
+
+/* Form */
+#form-section {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#form-section h2 {
+  margin-top: 0;
+}
+
+#log-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#log-form input,
+#log-form textarea,
+#log-form button {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+}
+
+#log-form button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#log-form button:hover {
+  background: #1d4ed8;
+}
+
+/* Set, Reps, Vikt på samma rad */
+.form-row {
+  display: flex;
+  gap: 1rem; /* mellanrum mellan fälten */
+}
+
+.form-group {
+  flex: 1; /* alla lika breda */
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.4rem; /* lite mindre */
+  font-size: 0.9rem;
+}
+
+/* Träningslogg */
+#log-section {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#log-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#log-list li {
+  padding: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Footer */
+.footer {
+  background: #1f2937;
+  color: white;
+  text-align: center;
+  padding: 1rem;
 }

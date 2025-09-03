@@ -1,5 +1,7 @@
-// Skapa variabler för elementen som vi dynamisk ska ändra på // 
+/* pseudokod funktioner beskrivning
 
-// Lägga till logik för datum // 
+->
 
-//document.getElementById("datum").valueAsDate = new Date();//
+
+
+*/
