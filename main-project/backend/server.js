@@ -49,7 +49,8 @@ app.use(express.json());
       res.json({messege: "uppdaterad"})
     })
 
-    app.delete("exercises/;id", async(req, res) => {
+    app.delete("/exercises/;id", async (req, res) => {
+     
       const { id } = req.params;
       await collection.deleteOne({ID: Number(id) }); 
       res.json ({messege:"raderad"});

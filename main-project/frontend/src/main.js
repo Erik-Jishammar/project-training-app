@@ -18,7 +18,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Kunde inte hämta övningar:", error);
   }
 });
-
+form.addEventListener("keydown", (event)=>{
+    if(event.key === "Enter") {
+        event.preventDefault();
+        form.requestSubmit();
+    }
+})
 form.addEventListener("submit", async (event) => {
   event.preventDefault(); // Hindra sidan från att ladda om
 
@@ -47,7 +52,8 @@ form.addEventListener("submit", async (event) => {
     console.log("övning uppdaterad");
 
     for (let i = 0; 1 < logData.length; i++) {
-      if (logData[i].ID === currentEditId) {
+      
+        if (logData[i].ID === currentEditId) {
         logData[i].datum = newExercise.datum;
         logData[i].övning = newExercise.övning;
         logData[i].set = newExercise.set;
@@ -90,7 +96,7 @@ function renderLogList() {
 
     const editBtn = document.createElement("button");
     editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
-    editBtn.addEventListener("click", () => {
+    editBtn.addEventListener("click", async () => {
       currentEditId = exercise.ID; // ID  för "edit läge"
       form.date.value = exercise.datum;
       form.exercise.value = exercise.övning;
@@ -98,23 +104,26 @@ function renderLogList() {
       form.reps.value = exercise.reps;
       form.weight.value = exercise.vikt;
       form.comment.value = exercise.kommentar || "";
-    });
-
+ });
+ const deleteBtn = document.createElement("button");
+ deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+ deleteBtn.addEventListener("click", async () => {
+   
+   const response = await fetch
+   
+   (`http://localhost:3000/exercises/${exercise.ID}`,
+       {
+           method: "DELETE",
+       }
+   )
+   logData = logData.filter((item) => item.ID !== exercise.ID); 
+   renderLogList();
+   console.log("Övning deletad", exercise);
+   
+ })
+    
     li.appendChild(editBtn);
+    li.appendChild(deleteBtn);
     logList.appendChild(li);
   });
 }
-/*
-    const editBtn = document.createElement('button'); 
-    editBtn.textContent = "<i class="fa-solid fa-pen"></i>";
-    
-    editBtn.addEventListener('click', () =>{
-
-    });
- */
-
-// const removeBtn = document.createElement("button");
-// removeBtn.innerText = "X";
-// filter ID? -> För att hitta den övningen som ska tas bort
-// removeBtn.addEventListener("click", () => {
-//  logik
