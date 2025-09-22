@@ -3,47 +3,64 @@ import { initLogController } from "../controllers/logController.js";
 export function renderLogPage(container) {
   container.innerHTML = `
     <div class="main-container">
-    <section id="form-section" class="card">
-      <h2>Lägg till träningspass</h2>
-      <form id="log-form" method="post">
-        <label for="date">Datum</label>
-        <input type="date" id="date" name="date" required />
+    
+      <!-- Vänstra kortet -->
+      <section id="form-section" class="card">
+        
+        <form id="session-form">
+          <label for="split">Split/fokus</label>
+          <input type="text" id="split" name="split" class="session-input" required placeholder="ex Rygg/biceps" />
+          
+          <label for="date">Datum</label>
+          <input type="date" id="date" name="date" class="session-input" required />
+          <button type="submit" id="start-session-btn">Lägg till träningspass</button>
+        </form>
 
-        <label for="övning">Övning</label>
-        <input type="text" id="exercise" name="exercise" required />
+        <h2>Lägg till övning</h2>
+        <form id="log-form" method="post">
+          <label for="övning">Övning</label>
+          <input type="text" id="exercise" name="exercise" required />
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="set">Set</label>
-            <input type="number" id="set" name="set" min="1" max="20" required />
+          <div class="form-row">
+            <div class="form-group">
+              <label for="set">Set</label>
+              <input type="number" id="set" name="set" min="1" max="20" required />
+            </div>
+
+            <div class="form-group">
+              <label for="reps">Reps</label>
+              <input type="number" id="reps" name="reps" min="1" max="100" required />
+            </div>
+
+            <div class="form-group">
+              <label for="vikt">Vikt (kg)</label>
+              <input type="number" id="weight" name="weight" min="0" step="0.5" />
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="reps">Reps</label>
-            <input type="number" id="reps" name="reps" min="1" max="100" required />
-          </div>
+          <label for="kommentar">Kommentar</label>
+          <textarea id="comment" name="comment"></textarea>
 
-          <div class="form-group">
-            <label for="vikt">Vikt (kg)</label>
-            <input type="number" id="weight" name="weight" min="0" step="0.5" />
-          </div>
-        </div>
+          <button type="submit">Lägg till</button>
+        </form>
+      </section>
 
-        <label for="kommentar">Kommentar</label>
-        <textarea id="comment" name="comment"></textarea>
+      <!-- Högra kortet: träningsloggen -->
+      <section id="log-section" class="card">
+        <h2>Träningslogg</h2>
+        <div id="current-session-info"></div>
+        <ul id="current-exercises-list"></ul>
+        <ul id="log-list"></ul>
 
-        <button type="submit">Lägg till</button>
-      </form>
-    </section>
+        <button id="save-btn" class="save-btn">Spara pass</button>
 
-    <section id="log-section" class="card">
-      <h2>Träningslogg</h2>
-      <ul id="log-list"></ul>
-    </section>
-  </div>
-`;
+      </section>
+    </div>
+  `;
 
-  const form = document.getElementById("log-form");
+  const sessionForm = document.getElementById("session-form");
+  const logForm = document.getElementById("log-form");
   const logList = document.getElementById("log-list");
-  initLogController(form, logList);
+
+  initLogController(sessionForm, logForm, logList);
 }
