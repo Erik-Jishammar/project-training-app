@@ -28,3 +28,4 @@ export function navigateTo(page){
     }
 
 }
+// binda ihop frontenddelarna -> projektets "ingång" se till att appen laddas in korrekt

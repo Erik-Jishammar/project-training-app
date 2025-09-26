@@ -13,3 +13,5 @@ document.querySelectorAll(".nav-button").forEach(btn => {
   });
 });
 
+// entry point för vite, se till att appen körs i browser
+// 

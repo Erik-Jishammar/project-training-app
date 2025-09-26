@@ -5,7 +5,7 @@ export const getExercises = async (req, res) => {
   try {
     const collection = getCollection();
     const exercises = await collection.find({}).toArray();
-    res.json(exercises);
+    res.json(exercises);  // Returnerar: en array av sparade sessions.
   } catch (error) {
     console.error("Problem vid hämtning från databasen", error);
     res.status(500).json({ error: "Kunde inte hämta övningar" });
@@ -36,7 +36,7 @@ export const updateExercise = async (req, res) => {
     await collection.updateOne(
       { _id: new ObjectId(id) },
       { $set: updateExercise }
-    );
+    ); // Uppdaterar dokument
 
     res.json({ message: "Övning uppdaterad" });
   } catch (error) {

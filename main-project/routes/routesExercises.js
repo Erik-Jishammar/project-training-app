@@ -12,3 +12,6 @@ router.put('/exercises/:id', updateExercise);
 router.delete('/exercises/:id', deleteExercise); 
 
 export default router; 
+
+	// Binder HTTP-endpoints till controllerfunktioner.
+	

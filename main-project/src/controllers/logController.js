@@ -1,13 +1,14 @@
+
 export function initLogController(sessionForm, logForm, logList) {
-  let logData = [];
+  let logData = []; // pass/historik från backend
   let currentEditId = null;
   let currentSession = null;
 
-  logForm.querySelectorAll("input, button").forEach(el => el.disabled = true);
+  logForm.querySelectorAll("input, button").forEach(el => el.disabled = true); // Disable inputs/knapp tills pass startas
 
   const sessionInfoDiv = document.getElementById("current-session-info");
 
-  fetchExercises();
+  fetchExercises(); // hjälpfunktion getExercises -> api.js
 
   sessionForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -20,7 +21,7 @@ export function initLogController(sessionForm, logForm, logList) {
     };
 
     sessionForm.reset();
-    logForm.querySelectorAll("input, button").forEach(el => el.disabled = false);
+    logForm.querySelectorAll("input, button").forEach(el => el.disabled = false); // aktiverar så man kan lägga till övningar i logForm
     renderCurrentExercises();
   })
 
@@ -33,9 +34,10 @@ export function initLogController(sessionForm, logForm, logList) {
 
   logForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    if (!currentSession) return;
+    if (!currentSession) return; // skydd mot att lägga till övningar när ingen "session" är startad
 
     const newExercise = {
+      _id: Date.now(), 
       övning: logForm.exercise.value,
       set: logForm.set.value,
       reps: logForm.reps.value,
@@ -43,7 +45,7 @@ export function initLogController(sessionForm, logForm, logList) {
       kommentar: logForm.comment.value,
     };
 
-    if (currentEditId) {
+    if (currentEditId) { // Om currentEdit finns -> uppdatera rätt övning annars -> ny
       currentSession.exercises = currentSession.exercises.map(ex =>
         ex._id === currentEditId ? { ...ex, ...newExercise } : ex
       );
@@ -62,7 +64,7 @@ export function initLogController(sessionForm, logForm, logList) {
       alert("Inga övningar att spara! Lägg till minst en övning först.");
       return;
     }
-
+        
     try {
       const res = await fetch("http://localhost:3000/form", {
         method: "POST",
@@ -76,11 +78,13 @@ export function initLogController(sessionForm, logForm, logList) {
 
       alert("Passet sparat!");
       currentSession = null;
+      
       logForm.querySelectorAll("input, button").forEach(el => el.disabled = true);
       renderCurrentExercises();
       renderLogList();
     } catch (error) {
       console.error("Kunde inte spara pass:", error);
+   
     }
   });
 
@@ -94,6 +98,7 @@ export function initLogController(sessionForm, logForm, logList) {
     } catch (error) {
       console.error("Kunde inte hämta övningar:", error);
     }
+    // Hämtar historiken via getExercises i api.js -> backend GET
   }
 
   function renderCurrentExercises() {
@@ -134,14 +139,15 @@ export function initLogController(sessionForm, logForm, logList) {
       });
 
       actions.appendChild(editBtn);
-      actions.appendChild(deleteBtn);
-      li.appendChild(actions);
+      actions.appendChild(deleteBtn); // Lägger till knapparna i actions-behållaren 
+      li.appendChild(actions); // action behållaren i list-el
       ul.appendChild(li);
     });
   }
 
-  function renderLogList() {
+  function renderLogList() { // historik över tidigare sparade pass 
     if (!logList) return;
+
     logList.innerHTML = "";
 
     logData.forEach((session) => {
