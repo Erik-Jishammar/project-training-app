@@ -61,6 +61,10 @@ export function renderLogPage(container: HTMLElement): void {
   const sessionForm = document.getElementById("session-form") as HTMLFormElement | null;
   const logForm = document.getElementById("log-form")as HTMLFormElement | null;
   const logList = document.getElementById("log-list")as HTMLElement | null;
-
-  initLogController(sessionForm, logForm, logList);
+    if(sessionForm && logForm){
+      initLogController(sessionForm, logForm, logList)
+    } else {
+      console.error('Formuläret kunde inte hittas i DOM')
+      }
+  
 }

@@ -1,9 +1,12 @@
+import { Session } from "inspector/promises";
+
 const BASE_URL = "http://localhost:3000"; 
 
 
-export async function getExercises() { 
+export async function getExercises(): Promise <Session[]> { 
     const res = await fetch(`${BASE_URL}/exercises`);
-    return res.json();
+    if (!res.ok) throw Error('Kunde inte hämta övningar')
+    return (await res.json()) as Session[];
 }
 
 export async function addExercise(exercise) {

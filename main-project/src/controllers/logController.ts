@@ -1,10 +1,28 @@
+interface Exercise {
+  _id: number;
+  övning: string;
+  set: number;
+  reps: number;
+  vikt: number;
+  kommentar?: string;
+}
+interface Session{
+  _id: number | null;
+  split: string;
+  date: string; 
+  exercises: Exercise[];
+}
 
-export function initLogController(sessionForm, logForm, logList) {
-  let logData = []; // pass/historik från backend
-  let currentEditId = null;
-  let currentSession = null;
 
-  logForm.querySelectorAll("input, button").forEach(el => el.disabled = true); // Disable inputs/knapp tills pass startas
+export function initLogController(
+  
+  sessionForm:HTMLFormElement, logForm:HTMLFormElement, logList: HTMLElement | null ){
+  let logData: Session[] = []; // pass/historik från backend
+  let currentEditId: number | null = null;
+  let currentSession: Session | null = null;
+  
+  logForm.querySelectorAll("input, button").forEach(el => (el as HTMLInputElement | HTMLButtonElement).disabled = true);
+
 
   const sessionInfoDiv = document.getElementById("current-session-info");
 
@@ -15,13 +33,13 @@ export function initLogController(sessionForm, logForm, logList) {
 
     currentSession = {
       _id: null, // sätts när vi sparar
-      split: sessionForm.split.value,
-      date: sessionForm.date.value,
+      split: (sessionForm.elements.namedItem("split") as HTMLInputElement).value,
+      date: (sessionForm.elements. namedItem("date") as HTMLInputElement).value,
       exercises: [],
     };
 
     sessionForm.reset();
-    logForm.querySelectorAll("input, button").forEach(el => el.disabled = false); // aktiverar så man kan lägga till övningar i logForm
+    logForm.querySelectorAll("input, button").forEach(el => (el as HTMLInputElement | HTMLButtonElement).disabled = false);
     renderCurrentExercises();
   })
 
@@ -38,11 +56,11 @@ export function initLogController(sessionForm, logForm, logList) {
 
     const newExercise = {
       _id: Date.now(), 
-      övning: logForm.exercise.value,
-      set: logForm.set.value,
-      reps: logForm.reps.value,
-      vikt: logForm.weight.value,
-      kommentar: logForm.comment.value,
+      övning: (logForm.exercise as HTMLInputElement).value,
+      set: Number((logForm.set as HTMLInputElement).value),
+      reps: Number((logForm.reps as HTMLInputElement).value),
+      vikt: Number((logForm.weight as HTMLInputElement).value),
+      kommentar: (logForm.comment as HTMLInputElement).value,
     };
 
     if (currentEditId) { // Om currentEdit finns -> uppdatera rätt övning annars -> ny
@@ -58,7 +76,7 @@ export function initLogController(sessionForm, logForm, logList) {
     logForm.reset();
   });
 
-  const saveBtn = document.getElementById("save-btn");
+  const saveBtn = document.getElementById("save-btn") as HTMLButtonElement;
   saveBtn.addEventListener("click", async () => {
     if (!currentSession || currentSession.exercises.length === 0) {
       alert("Inga övningar att spara! Lägg till minst en övning först.");
@@ -79,7 +97,7 @@ export function initLogController(sessionForm, logForm, logList) {
       alert("Passet sparat!");
       currentSession = null;
       
-      logForm.querySelectorAll("input, button").forEach(el => el.disabled = true);
+      logForm.querySelectorAll("input, button").forEach(el => (el as HTMLInputElement | HTMLButtonElement).disabled = true);
       renderCurrentExercises();
       renderLogList();
     } catch (error) {
@@ -88,11 +106,11 @@ export function initLogController(sessionForm, logForm, logList) {
     }
   });
 
-  async function fetchExercises() {
+  async function fetchExercises(): Promise<void> {
     try {
       const res = await fetch("http://localhost:3000/exercises");
       if (res.ok) {
-        logData = await res.json();
+        logData = await res.json() as Session[];
         renderLogList();
       }
     } catch (error) {
@@ -101,17 +119,18 @@ export function initLogController(sessionForm, logForm, logList) {
     // Hämtar historiken via getExercises i api.js -> backend GET
   }
 
-  function renderCurrentExercises() {
+  function renderCurrentExercises():void {
     const sessionInfoDiv = document.getElementById("current-session-info");
     const ul = document.getElementById("current-exercises-list");
+    if(!ul) return;
     ul.innerHTML = "";
 
     if (!currentSession) {
-      sessionInfoDiv.textContent = "";
+      if(sessionInfoDiv) sessionInfoDiv.textContent = "";
       return;
     }
 
-    sessionInfoDiv.textContent = `${currentSession.split} - ${currentSession.date}`;
+    if(sessionInfoDiv) sessionInfoDiv.textContent = `${currentSession.split} - ${currentSession.date}`;
 
     currentSession.exercises.forEach((exercise) => {
       const li = document.createElement("li");
@@ -124,19 +143,20 @@ export function initLogController(sessionForm, logForm, logList) {
       editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
       editBtn.addEventListener("click", () => {
         currentEditId = exercise._id;
-        logForm.exercise.value = exercise.övning;
-        logForm.set.value = exercise.set;
-        logForm.reps.value = exercise.reps;
-        logForm.weight.value = exercise.vikt;
-        logForm.comment.value = exercise.kommentar || "";
+        (logForm.elements.namedItem('exercise') as HTMLInputElement).value = exercise.övning;
+        (logForm.elements.namedItem('set') as HTMLInputElement).value =String(exercise.set);
+        (logForm.elements.namedItem('reps') as HTMLInputElement).value = String(exercise.reps);
+        (logForm.elements.namedItem('weight') as HTMLInputElement).value = String(exercise.vikt);
+        (logForm.elements.namedItem('comment') as HTMLInputElement).value = exercise.kommentar || "";
       });
 
       const deleteBtn = document.createElement("button");
       deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
       deleteBtn.addEventListener("click", () => {
+       if(currentSession){
         currentSession.exercises = currentSession.exercises.filter(ex => ex._id !== exercise._id);
         renderCurrentExercises();
-      });
+      }});
 
       actions.appendChild(editBtn);
       actions.appendChild(deleteBtn); // Lägger till knapparna i actions-behållaren 
@@ -145,7 +165,7 @@ export function initLogController(sessionForm, logForm, logList) {
     });
   }
 
-  function renderLogList() { // historik över tidigare sparade pass 
+  function renderLogList(): void { // historik över tidigare sparade pass 
     if (!logList) return;
 
     logList.innerHTML = "";
@@ -161,12 +181,11 @@ export function initLogController(sessionForm, logForm, logList) {
         const editBtn = document.createElement("button");
         editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
         editBtn.addEventListener("click", () => {
-          currentEditId = exercise._id;
-          logForm.exercise.value = exercise.övning;
-          logForm.set.value = exercise.set;
-          logForm.reps.value = exercise.reps;
-          logForm.weight.value = exercise.vikt;
-          logForm.comment.value = exercise.kommentar || "";
+          (logForm.elements.namedItem("exercise") as HTMLInputElement).value = exercise.övning;
+          (logForm.elements.namedItem("set") as HTMLInputElement).value = String(exercise.set);
+          (logForm.elements.namedItem("reps") as HTMLInputElement).value = String(exercise.reps);
+          (logForm.elements.namedItem("weight") as HTMLInputElement).value = String(exercise.vikt);
+          (logForm.elements.namedItem("comment") as HTMLInputElement).value = exercise.kommentar || "";
         });
 
         const deleteBtn = document.createElement("button");
