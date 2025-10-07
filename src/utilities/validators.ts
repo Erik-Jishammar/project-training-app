@@ -1,6 +1,4 @@
- /* Fortsätta när jag fått appen att funka
- 
- export function validateExercise(exercise) {
+ export function validateExercise(exercise: { övning: string | any[]; set: number; reps: number; vikt: number; kommentar: string | any[]; }) {
     const errors = [];
   
     if (!exercise.övning || exercise.övning.length < 2) {
@@ -26,4 +24,4 @@
     return errors;
   }
 
-  */ 
+  
