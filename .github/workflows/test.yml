@@ -5,21 +5,25 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
 jobs:
   vitest: 
-  name: test
-  runs-on: ubuntu-latest
-  steps:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      - name: Set up node.js
+
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with: 
           node-version: 20  
-      - name: Install depedencies
+
+      - name: Install dependencies
         run: npm install 
-      - name: Run vitest
+
+      - name: Run Vitest
         run: npm run test -- --run
+
       - name: Run Playwright 
         run: npm run test:e2e
-      
