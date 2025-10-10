@@ -10,9 +10,9 @@
     "dev:client": "vite",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:ci": "vite",
-    "build": "vite build",
+    "build": " tsc && vite build",
     "preview": "vite preview",
-    "start": "node server.ts",
+    "start": "node dist/server.js",
     "test": "vitest",
     "test:e2e": "playwright test"
   },

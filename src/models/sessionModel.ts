@@ -1,4 +1,7 @@
 import { Collection, MongoClient } from "mongodb";
+import dotenv from "dotenv"
+
+dotenv.config();
 
 export interface Exercise {
   _id?: string;
@@ -14,7 +17,7 @@ export interface Session {
   date: string;
   exercises: Exercise[];
 }
-const uri = "mongodb://127.0.0.1:27017"; // MongoDB setup
+const uri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017"; // MongoDB setup 
 const client = new MongoClient(uri);
 
 let collection: Collection<Session>;
