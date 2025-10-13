@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
-    "types": [],
+    "types": ["node", "express", "cors", "vitest"],
     "allowJs": false,
     "rootDir": "./",
     "outDir": "./dist",
