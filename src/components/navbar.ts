@@ -1,4 +1,4 @@
-import { navigateTo } from "../app";
+import { navigateTo } from "../app.js";
 
 export function renderNavbar():void {
     const nav = document.getElementById("navbar") as HTMLElement;  

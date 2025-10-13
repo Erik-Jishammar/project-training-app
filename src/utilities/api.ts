@@ -1,4 +1,4 @@
-import type  { Exercise } from "../models/sessionModel";
+import type  { Exercise } from "../models/sessionModel.js";
 
 
 const BASE_URL = "http://localhost:3000"; 

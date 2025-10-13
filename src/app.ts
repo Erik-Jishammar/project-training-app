@@ -1,10 +1,10 @@
-import { renderNavbar } from "./components/navbar";
-import { renderFooter } from "./components/footer";
+import { renderNavbar } from "./components/navbar.js";
+import { renderFooter } from "./components/footer.js";
 
-import { renderLogPage } from "./pages/logPage";
-import { renderTrainingHistoryPage } from "./pages/TrainingHistoryPage";
-import { renderPassGeneratorPage } from "./pages/passGeneratorPage";
-import { renderProfilePage } from "./pages/profilePage";
+import { renderLogPage } from "./pages/logPage.js";
+import { renderTrainingHistoryPage } from "./pages/TrainingHistoryPage.js";
+import { renderPassGeneratorPage } from "./pages/passGeneratorPage.js";
+import { renderProfilePage } from "./pages/profilePage.js";
 
 renderNavbar();
 renderFooter();

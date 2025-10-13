@@ -1,4 +1,4 @@
-import { initLogController } from "../controllers-f/logController";
+import { initLogController } from "../controllers-f/logController.js";
 
 export function renderLogPage(container: HTMLElement): void {
   container.innerHTML = `

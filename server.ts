@@ -2,9 +2,10 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import { createServer as createViteServer } from "vite";
 
-import routesSessions from './src/routes/routesSessions';
-import { connectDB } from "./src/models/sessionModel";
+import routesSessions from './src/routes/routesSessions.js';
+import { connectDB } from "./src/models/sessionModel.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename); 
@@ -18,17 +19,24 @@ app.use(express.json());
 
 app.use('/', routesSessions);
 
-app.use(express.static(path.join(__dirname, "dist")));
-
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
+if (process.env.NODE_ENV !== "production"){
+  const vite = await createViteServer({
+    server: {middlewareMode: true}, 
+    appType: "spa",
+  })
+  app.use(vite.middlewares); 
+} else {
+  app.use(express.static(path.join(__dirname, "dist/client")));
+    app.all("*", (_, res) => {
+    res.sendFile(path.join(__dirname, "dist/client", "index.html"));
+  });
+}
 
 (async () => {
   try {
     await connectDB();
     app.listen(port, () => {
-      console.log('servern kör på ${PORT}');
+      console.log(`Servern kör på port ${port}`);
     });
   } catch (err: unknown) {
     console.error('fel vid start', err);
