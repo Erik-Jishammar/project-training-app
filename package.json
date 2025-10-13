@@ -13,7 +13,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "start": "NODE_ENV=production node dist/server.js",
-    "test": "vitest --run --include 'tests/test-ut/**/*.ts'",
+    "test": "vitest --run tests/test-ut/**/*.ts",
     "test:e2e": "playwright test"
   },
   "keywords": [],
