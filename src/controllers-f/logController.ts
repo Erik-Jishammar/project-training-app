@@ -84,7 +84,7 @@ export function initLogController(
     }
 
     try {
-      const res = await fetch("http://localhost:3000/sessions", {
+      const res = await fetch("http://localhost:3000/api/exercises", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(currentSession),
@@ -115,7 +115,7 @@ export function initLogController(
   // Hämta sessions
   async function fetchSessions(): Promise<void> {
     try {
-      const res = await fetch("http://localhost:3000/sessions");
+     const res = await fetch("http://localhost:3000/api/exercises");
       if (res.ok) {
         logData = await res.json();
       }

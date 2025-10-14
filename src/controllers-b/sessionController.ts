@@ -1,63 +1,61 @@
-import {Request, Response } from "express"
-import { getCollection, Session, Exercise } from "../models/sessionModel.js";
+import { Request, Response } from "express";
+import { getCollection, Session } from "../models/sessionModel.js";
 
-
-export const getSession = async (req: Request, res: Response) => {
+export const getSessions = async (_req: Request, res: Response) => {
   try {
     const collection = getCollection();
     const sessions = await collection.find({}).toArray();
-    res.json(sessions);  // Returnerar: en array av sparade sessions.
+    res.json(sessions);
   } catch (error) {
     console.error("Problem vid hämtning från databasen", error);
-    res.status(500).json({ error: "Kunde inte hämta övningar" });
+    res.status(500).json({ error: "Kunde inte hämta sessions" });
   }
 };
 
-export const createSession = async (req: Request<{},{}, Session>, res: Response) => {
+export const createSession = async (req: Request<{}, {}, Session>, res: Response) => {
   try {
     const collection = getCollection();
-    const newSession: Session = req.body; 
-     if (!newSession._id) {
-      newSession._id = Date.now().toString(); 
-    }
+    const newSession: Session = req.body;
+
+    if (!newSession._id) newSession._id = Date.now().toString();
     newSession.exercises = newSession.exercises || [];
 
-    const result = await collection.insertOne(newSession);
+    await collection.insertOne(newSession);
     res.json(newSession);
-  } catch (err) {
-    console.error("Problem vid sparande i databasen", err);
+  } catch (error) {
+    console.error("Problem vid sparande i databasen", error);
     res.status(500).json({ error: "Kunde inte spara session" });
   }
 };
-export const updateSession = async (req: Request <{id: string},{}, Partial <Session>>,
-   res: Response) => {
+
+export const updateSession = async (
+  req: Request<{ id: string }, {}, Partial<Session>>,
+  res: Response
+) => {
   try {
     const collection = getCollection();
     const { id } = req.params;
-    const updateSession: Partial<Session> = req.body;
+    const updateData = req.body;
 
-    await collection.updateOne(
-      { _id: id },
-      { $set: updateSession }
-    );  
+    await collection.updateOne({ _id: id }, { $set: updateData });
 
     res.json({ message: "Session uppdaterad" });
   } catch (error) {
     console.error("Problem vid uppdatering", error);
-    res.status(500).json({ error: "Gick inte att uppdatera träningspasset" });
+    res.status(500).json({ error: "Gick inte att uppdatera sessionen" });
   }
 };
 
-export const deleteSession = async (req: Request <{id:string}> , res: Response) => {
+export const deleteSession = async (req: Request<{ id: string }>, res: Response) => {
   try {
     const collection = getCollection();
     const { id } = req.params;
 
-    await collection.deleteOne({ _id:id });
+    await collection.deleteOne({ _id: id });
 
-    res.json({ message: "Pass raderad" });
+    res.json({ message: "Session raderad" });
   } catch (error) {
-    console.error("Funkade inte att radera sessionen", error);
-    res.status(500).json({ error: "gick inte att radera session" });
+    console.error("Problem vid radering", error);
+    res.status(500).json({ error: "Gick inte att radera sessionen" });
   }
 };
