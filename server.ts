@@ -23,7 +23,8 @@ if (process.env.NODE_ENV !== "production") {
   const vite = await createViteServer({ server: { middlewareMode: true }, appType: "spa" });
   app.use(vite.middlewares);
 } else {
-  const clientDist = join(__dirname, "dist/client");
+  // In production, server.js lives in dist/, and the built client is in dist/client
+  const clientDist = join(__dirname, "client");
 
   app.use(express.static(clientDist));
   
