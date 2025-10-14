@@ -1,14 +1,19 @@
 import type { Session } from "../models/sessionModel.js";
 
-export const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "/api"
-    : "http://localhost:3000/api";
+
+const BASE_URL = import.meta.env.DEV ? "http://localhost:3000/api" : "/api";
+
+async function handleJson<T>(res: Response): Promise<T> {
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(text || `Request failed with ${res.status}`);
+  }
+  return res.json() as Promise<T>;
+}
 
 export async function getSessions(): Promise<Session[]> {
   const res = await fetch(`${BASE_URL}/exercises`);
-  if (!res.ok) throw new Error("Kunde inte hämta sessions");
-  return res.json() as Promise<Session[]>;
+  return handleJson<Session[]>(res);
 }
 
 export async function addSession(session: Session): Promise<Session> {
@@ -17,7 +22,7 @@ export async function addSession(session: Session): Promise<Session> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(session),
   });
-  return res.json();
+  return handleJson<Session>(res);
 }
 
 export async function updateSession(id: string, data: Partial<Session>): Promise<{ message: string }> {
@@ -26,12 +31,12 @@ export async function updateSession(id: string, data: Partial<Session>): Promise
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-  return res.json();
+  return handleJson<{ message: string }>(res);
 }
 
 export async function deleteSession(id: string): Promise<{ message: string }> {
   const res = await fetch(`${BASE_URL}/exercises/${id}`, {
     method: "DELETE",
   });
-  return res.json();
+  return handleJson<{ message: string }>(res);
 }

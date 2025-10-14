@@ -9,7 +9,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
-    "types": ["node", "express", "cors", "vitest"],
     "allowJs": false,
     "rootDir": "./",
     "outDir": "./dist",
@@ -20,6 +19,7 @@
   "include": [
     "server.ts",
     "src/**/*.ts",
+    "src/vite-env.d.ts",
     "tests/**/*.ts"
   ],
   "exclude": ["node_modules", "dist"]
