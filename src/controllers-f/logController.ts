@@ -1,3 +1,5 @@
+import { BASE_URL } from "../utilities/api.js";
+
 export interface Exercise {
   _id?: string;
   övning: string;
@@ -19,7 +21,7 @@ export function initLogController(
   exerciseForm: HTMLFormElement,
   logList: HTMLElement | null
 ) {
-  let logData: Session[] = []; 
+  let logData: Session[] = [];
   let currentEditId: string | null = null;
   let currentSession: Session | null = null;
 
@@ -84,7 +86,7 @@ export function initLogController(
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/exercises", {
+      const res = await fetch(`${BASE_URL}/exercises`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(currentSession),
@@ -99,7 +101,6 @@ export function initLogController(
       currentSession = null;
       renderCurrentExercises();
 
-  
       sessionForm.reset();
       exerciseForm.reset();
       exerciseForm.querySelectorAll("input, button").forEach(
@@ -115,7 +116,7 @@ export function initLogController(
   // Hämta sessions
   async function fetchSessions(): Promise<void> {
     try {
-     const res = await fetch("http://localhost:3000/api/exercises");
+      const res = await fetch(`${BASE_URL}/exercises`);
       if (res.ok) {
         logData = await res.json();
       }
