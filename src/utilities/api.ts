@@ -1,9 +1,10 @@
 import type { Session } from "../models/sessionModel.js";
 
-export const BASE_URL =
-  import.meta.env.MODE === "production"
-    ? "/api"
-    : "http://localhost:3000/api";
+const isBrowser = typeof window !== "undefined";
+
+export const BASE_URL = isBrowser
+  ? (import.meta.env.MODE === "production" ? "/api" : "http://localhost:3000/api")
+  : "http://localhost:3000/api";
 
 export async function getSessions(): Promise<Session[]> {
   const res = await fetch(`${BASE_URL}/exercises`);
@@ -20,7 +21,10 @@ export async function addSession(session: Session): Promise<Session> {
   return res.json();
 }
 
-export async function updateSession(id: string, data: Partial<Session>): Promise<{ message: string }> {
+export async function updateSession(
+  id: string,
+  data: Partial<Session>
+): Promise<{ message: string }> {
   const res = await fetch(`${BASE_URL}/exercises/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
