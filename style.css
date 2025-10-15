@@ -70,6 +70,15 @@ body {
   justify-items: center;
 }
 
+/* History page layout: single-column, centered list of cards */
+#history-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 500px;
+}
+
 /* =======================
  Cards (Form + Logg)
  ======================= */
@@ -79,6 +88,55 @@ body {
   border-radius: 25px;
   width: 100%;
   max-width: 500px;
+}
+
+/* History cards visually match .card */
+.history-card {
+  background: white;
+  padding: 1.25rem 1.5rem;
+  border-radius: 25px;
+  width: 100%;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.history-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.history-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.history-card li {
+  background: #ffffff;
+  padding: 0.6rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 0.4rem;
+}
+
+.delete-session-btn {
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  padding: 0.45rem 0.7rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.delete-session-btn:hover {
+  background: #dc2626;
 }
 
 /* =======================
@@ -97,7 +155,8 @@ body {
 }
 
 #log-form,
-#session-form {
+#session-form,
+#exercise-form {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
@@ -105,7 +164,9 @@ body {
 
 #log-form input,
 #log-form textarea,
-#session-form input {
+#session-form input,
+#exercise-form input,
+#exercise-form textarea {
   padding: 0.4rem;
   border: 1px solid #d1dbd2;
   border-radius: 25px;
@@ -114,14 +175,17 @@ body {
 
 #log-form input:focus,
 #log-form textarea:focus,
-#session-form input:focus {
+#session-form input:focus,
+#exercise-form input:focus,
+#exercise-form textarea:focus {
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
 }
 
 #log-form button,
-#session-form button {
+#session-form button,
+#exercise-form button {
   background: #0665a0;
   color: white;
   border: none;
@@ -132,10 +196,12 @@ body {
   transition: background 0.2s ease-in-out, transform 0.15s;
   align-self: center;
   width: 60%;
+  margin-top: 0.5rem; /* spacing from last input */
 }
 
 #log-form button:hover,
-#session-form button:hover {
+#session-form button:hover,
+#exercise-form button:hover {
   background: #1d4ed8;
   transform: translateY(-2px);
 }
