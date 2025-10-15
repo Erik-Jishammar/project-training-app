@@ -1,22 +1,8 @@
 import { Collection, MongoClient } from "mongodb";
 import dotenv from "dotenv"
+import type { Session } from "./types.js";
 
 dotenv.config();
-
-export interface Exercise {
-  _id?: string;
-  övning: string;
-  set: number;
-  reps: number;
-  vikt: number;
-  kommentar?: string;
-}
-export interface Session {
-  _id?: string;
-  split: string;
-  date: string;
-  exercises: Exercise[];
-}
 const uri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017"; // MongoDB setup 
 const client = new MongoClient(uri);
 

@@ -1,20 +1,5 @@
 import { BASE_URL } from "../utilities/api.js";
-
-export interface Exercise {
-  _id?: string;
-  övning: string;
-  set: number;
-  reps: number;
-  vikt: number;
-  kommentar?: string;
-}
-
-interface Session {
-  _id?: string;
-  split: string;
-  date: string;
-  exercises: Exercise[];
-}
+import type { Exercise, Session } from "../models/types.js";
 
 export function initLogController(
   sessionForm: HTMLFormElement,

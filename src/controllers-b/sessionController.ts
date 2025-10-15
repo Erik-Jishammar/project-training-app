@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { getCollection, Session } from "../models/sessionModel.js";
+import { getCollection } from "../models/sessionModel.js";
+import type { Session } from "../models/types.js";
 
 export const getSessions = async (_req: Request, res: Response) => {
   try {
